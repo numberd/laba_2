@@ -1,0 +1,179 @@
+import numpy as np
+import random
+
+
+# ввод количества строк
+def DefRow():
+    while True:
+
+        try:
+            print("Введите размер матрицы (количество строк):")
+            n = int(input())
+            if n < 0 or n > 3:
+                print(
+                    "Введенный элемент должен быть целым положительным числом от 1 до 3")
+                continue
+
+        except ValueError or TypeError or UnboundLocalError:
+            print("Введенный элемент должен быть целым положительным числом от 1 до 3")
+            continue
+        return n
+
+# ввод количества столбцов
+
+
+def DefColumn():
+    while True:
+        try:
+            print("Введите размер матрицы (количество столбцов):")
+            m = int(input())
+            if m < 0 or m > 3:
+                print(
+                    "Введенный элемент должен быть целым положительным числом от 1 до 3")
+                continue
+
+        except ValueError or TypeError or UnboundLocalError:
+            print("Введенный элемент должен быть целым положительным числом от 1 до 3")
+            continue
+        return m
+
+
+def CheckLimits(n, m):
+    if n == 1 and m == 1:
+        print("Матрица состоит из одного элемента! Введите количество столбцов и строк повторно")
+        return 1
+    else:
+        return 0
+
+
+# заполнение матрицы
+def CreateMatrix(n, m):
+    while True:
+        mtrx = []
+
+        print("\n1 - заполнить матрицу произвольными значениями\n2 - заполнить матрицу вручную")
+        s = input()
+        match s:
+            case "1":
+                mtrx = np.random.randint(-100, 100, (n, m))
+                break
+
+            case "2":
+                for i in range(0, n):
+                    mtrx.append([])
+                    for j in range(0, m):
+                        while True:
+                            try:
+                                print(
+                                    "Введите элемент [", i, "][", j, "] матрицы: ")
+                                numb = int(input())
+                                break
+                            except ValueError or TypeError or UnboundLocalError:
+                                print("Введенный элемент должен быть целым числом")
+                                continue
+                        mtrx[i].append(numb)
+                break
+
+        break
+    return mtrx
+
+# транспонирование
+
+
+def Transposition():
+    print("\nВы выбрали функцию Транспонирование\n")
+    while True:
+        n = DefRow()
+        m = DefColumn()
+        if CheckLimits(n, m):
+            continue
+        a = CreateMatrix(n, m)
+
+        print("Матрица A: ")
+        print(a)
+
+        print("Транспонированная матрица A: ")
+        print(np.transpose(a))
+        print("--------------------------------------------")
+        break
+
+
+# умножение
+def Multiplication():
+    print("\nВы выбрали функцию Умножение\n")
+    while True:
+        print("Матрица A: ")
+        n = DefRow()
+        m = DefColumn()
+        if CheckLimits(n, m):
+            continue
+        a = CreateMatrix(n, m)
+        print("Матрица A: ")
+        print(a)
+
+        while True:
+            print("\nМатрица B: ")
+            n1 = DefRow()
+            m1 = DefColumn()
+            if CheckLimits(n1, m1):
+                continue
+            if n != m1 or m != n1:
+                print(
+                    "Размер матрицы B не соответствует необходимому для умножения на матрицу A размеру")
+                continue
+            break
+
+        b = CreateMatrix(n1, m1)
+        print("Матрица B:")
+        print(b)
+
+        print("\nРезультат умножения матрицы A на матрицу B: ")
+        print(a * b)
+        print("--------------------------------------------")
+        break
+
+# определение ранга
+
+
+def RankDetermination():
+    print("\nВы выбрали функцию Определение ранга\n")
+    while True:
+        n = DefRow()
+        m = DefColumn()
+        if CheckLimits(n, m):
+            continue
+        if n != m:
+            print("Количество столбцов должно быть равно количеству строк")
+            continue
+        a = CreateMatrix(n, m)
+        zero = 0
+
+        print("Матрица A: ")
+        print(a)
+
+        print("\nРанг матрицы A: ")
+        print(np.linalg.matrix_rank(a))
+        print("--------------------------------------------")
+        break
+
+##################################################
+
+
+while True:
+    print("\nПеречень функций: \n")
+    print("Транспонирование - 1\nУмножение - 2\nОпределение ранга - 3\nВыход из программы - 0")
+    print("Введите номер выбранной функции: \n")
+    s = input()
+    match s:
+        case "1":
+            Transposition()
+
+        case "2":
+            Multiplication()
+
+        case "3":
+            RankDetermination()
+
+        case "0":
+            print("Вы завершаете работу программы...")
+            break
